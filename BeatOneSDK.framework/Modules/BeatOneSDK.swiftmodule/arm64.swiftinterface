@@ -9,7 +9,6 @@ public protocol BODeviceDelegate : AnyObject {
   func ready()
   func connected()
   func disconnected()
-  func onDataReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   func onLog(message: Swift.String)
   func onSetTimeResponse(success: Swift.Bool)
@@ -114,7 +113,6 @@ public protocol BOManagerDelegate : AnyObject {
   func onConnectionChanged(status: BeatOneSDK.BOConstants.ConnectionState)
   func onDeviceDetected(device: BeatOneSDK.BODevice)
   func onScanStateChanged(active: Swift.Bool)
-  func onDataReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   func onLog(message: Swift.String)
   func onSetTimeResponse(success: Swift.Bool)
@@ -224,7 +222,6 @@ public protocol BOManagerDelegate : AnyObject {
   public func onProcessSOSFunctionReceived()
   public func onSetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
   public func onGetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
-  public func onDataReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   public func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   public func onLog(message: Swift.String)
   @objc deinit
