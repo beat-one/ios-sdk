@@ -1,0 +1,11 @@
+framework module BeatOneSDK {
+  umbrella header "BeatOneSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module BeatOneSDK.Swift {
+    header "BeatOneSDK-Swift.h"
+    requires objc
+}
