@@ -1,0 +1,601 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name BeatOneSDK
+@_exported import BeatOneSDK
+import CoreBluetooth
+import Swift
+import UIKit
+public protocol BODeviceDelegate : AnyObject {
+  func ready()
+  func connected()
+  func disconnected()
+  func onDataReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
+  func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
+  func onLog(message: Swift.String)
+  func onSetTimeResponse(success: Swift.Bool)
+  func onGetTimeResponse(success: Swift.Bool, date: Foundation.Date?)
+  func onSetUserPersonalInformationResponse(success: Swift.Bool)
+  func onGetUserPersonalInformationResponse(success: Swift.Bool, userInformation: BeatOneSDK.BOUserInformation?)
+  func onSetDeviceParametersResponse(success: Swift.Bool)
+  func onGetDeviceParametersResponse(success: Swift.Bool, deviceParameters: BeatOneSDK.BODeviceParameters?)
+  func onSetDeviceIDCodeResponse(success: Swift.Bool)
+  func onSetRealTimeStepModeResponse(success: Swift.Bool, stepInformation: BeatOneSDK.BORealTimeStepData?)
+  func onSetTargetStepsResponse(success: Swift.Bool)
+  func onGetTargetStepsResponse(success: Swift.Bool, steps: Swift.Int?)
+  func onGetDeviceBatteryResponse(success: Swift.Bool, batteryLevel: Swift.Int?)
+  func onGetMACAddressResponse(success: Swift.Bool, macAddress: Swift.String?)
+  func onGetSoftwareVersionNumberResponse(success: Swift.Bool, version: Swift.String?, date: Foundation.Date?)
+  func onSetFactoryResetResponse(success: Swift.Bool)
+  func onSetMCUResetResponse(success: Swift.Bool)
+  func onSetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool)
+  func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
+  func onSetAlarmResponse(success: Swift.Bool, alarms: [Swift.Int]?)
+  func onSetNotificationResponse(success: Swift.Bool)
+  func onSetActivityPeriodResponse(success: Swift.Bool)
+  func onGetActivityPeriodResponse(success: Swift.Bool, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, motionReminderPeriod: Swift.Int?, minimumNumberSteps: Swift.Int?, motionEnabled: Swift.Bool?)
+  func onGetTotalStepsDataResponse(success: Swift.Bool, totalStepsData: [BeatOneSDK.BOStepData]?)
+  func onGetDetailedStepsDataResponse(success: Swift.Bool, stepData: [BeatOneSDK.BODetailedStepData]?)
+  func onGetDetailedSleepDataResponse(success: Swift.Bool, sleepData: [BeatOneSDK.BOSleepData]?)
+  func onGetHeartRateDataResponse(success: Swift.Bool, heartRateData: [BeatOneSDK.BOHeartRateData]?)
+  func onGetSingleHeartRateDataResponse(success: Swift.Bool, heartRateData: [BeatOneSDK.BOSingleHeartRateData]?)
+  func onGetHRVDataResponse(success: Swift.Bool, hrvData: [BeatOneSDK.BOHRVData]?)
+  func onGetAlarmDataResponse(success: Swift.Bool, alarmData: [BeatOneSDK.BOAlarmData]?)
+  func onGetSportsDataResponse(success: Swift.Bool, sportData: [BeatOneSDK.BOSportData]?)
+  func onSportModeControlEnableResponse(success: Swift.Bool)
+  func onBraceletHeartBeatPacketReceived(success: Swift.Bool, sportData: BeatOneSDK.BOSportData?)
+  func onSetUpdateWeatherStatusResponse(success: Swift.Bool)
+  func onSetPhotoModeResponse(success: Swift.Bool)
+  func onFirmwareCommandReceived(success: Swift.Bool, command: BeatOneSDK.BOConstants.DeviceFirmwareCommand?, enable: Swift.Bool?)
+  func onClearHistoricalSportDataResponse(success: Swift.Bool)
+  func onGetBloodOxygenDataResponse(success: Swift.Bool, oxygenData: [BeatOneSDK.BOOxygenData]?)
+  func onGetTemperatureDataResponse(success: Swift.Bool, temperatureData: [BeatOneSDK.BOTemperatureData]?)
+  func onProcessSOSFunctionReceived()
+  func onSetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+  func onGetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+}
+@objc public class BODevice : ObjectiveC.NSObject, CoreBluetooth.CBPeripheralDelegate {
+  public var delegate: BeatOneSDK.BODeviceDelegate?
+  public init(peripheral: CoreBluetooth.CBPeripheral, rssi: Swift.Int, sendLogs: Swift.Bool = false)
+  public func deviceIs1963YH() -> Swift.Bool
+  public func getUUID() -> Foundation.UUID?
+  public func getRSSI() -> Swift.Int?
+  public func isSameDeviceAs(device: BeatOneSDK.BODevice) -> Swift.Bool
+  public func isDeviceWith(uuid: Swift.String) -> Swift.Bool
+  public func connect()
+  public func disconnect()
+  public func getStatus() -> BeatOneSDK.BOConstants.ConnectionState
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  public func setTime(date: Foundation.Date)
+  public func getTime()
+  public func setUserPersonalInformation(userInformation: BeatOneSDK.BOUserInformation)
+  public func getUserPersonalInformation()
+  public func setDeviceParameters(deviceParameters: BeatOneSDK.BODeviceParameters)
+  public func getDeviceParameters()
+  public func setDeviceIDCode(identifier: Swift.String)
+  public func setRealTimeStepMode(enableStep_HRMode: Swift.Bool, enableTemperatureMode: Swift.Bool)
+  public func setTargetSteps(steps: Swift.Int)
+  public func getTargetSteps()
+  public func getDeviceBattery()
+  public func getMACAddress()
+  public func getSoftwareVersionNumber()
+  public func setFactoryReset()
+  public func setMCUReset()
+  public func setAutomaticHeartRateDetectionPeriod(workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode, startTime: BeatOneSDK.BOTime, endTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, periodTime: Swift.Int?)
+  public func getAutomaticHeartRateDetectionPeriod()
+  public func setAlarm(alarmArray: [BeatOneSDK.BOAlarmData])
+  public func setNotification(type: BeatOneSDK.BOConstants.DeviceANCS, content: Swift.String)
+  public func setActivityPeriod(startTime: BeatOneSDK.BOTime, endTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, motionReminderPeriod: Swift.Int, minimumNumberSteps: Swift.Int, motionEnabled: Swift.Bool)
+  public func getActivityPeriod()
+  public func getTotalStepsData(action: BeatOneSDK.BOConstants.DeviceDataAction)
+  public func getDetailedStepsData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func getDetailedSleepData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func getHeartRateData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func getSingleHeartRateData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func getHRVData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func getAlarmData(action: BeatOneSDK.BOConstants.DeviceDataAction)
+  public func getSportsData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func sportModeControlEnable(controlMode: BeatOneSDK.BOConstants.DeviceControlMode, sportMode: BeatOneSDK.BOConstants.DeviceSportMode, levelSelection: Swift.Int?, timePeriod: Swift.Int)
+  public func setAppHeartBeatPacket(distance: Swift.Double, matchSpeed: BeatOneSDK.BOTime, mobileGPSStrengthSignal: Swift.Int)
+  public func setUpdateWeatherStatus(weatherStatus: BeatOneSDK.BOConstants.WeatherStatus, temperature: Swift.Int)
+  public func setPhotoMode()
+  public func clearHistoricalSportData()
+  public func getBloodOxygenData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func getTemperatureData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
+  public func setSocialDistanceReminder(interval: Swift.Int, duration: Swift.Int, alarmSignal: Swift.Int)
+  public func getSocialDistanceReminder(interval: Swift.Int, duration: Swift.Int, alarmSignal: Swift.Int)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol BOManagerDelegate : AnyObject {
+  func onBluetoothPermissionsChecked(status: BeatOneSDK.BOConstants.BluetoothPermissions)
+  func onBluetoothPowerChanged(status: BeatOneSDK.BOConstants.BluetoothStates)
+  func onConnectionError(message: Swift.String)
+  func onConnectionChanged(status: BeatOneSDK.BOConstants.ConnectionState)
+  func onDeviceDetected(device: BeatOneSDK.BODevice)
+  func onScanStateChanged(active: Swift.Bool)
+  func onDataReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
+  func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
+  func onLog(message: Swift.String)
+  func onSetTimeResponse(success: Swift.Bool)
+  func onGetTimeResponse(success: Swift.Bool, date: Foundation.Date?)
+  func onSetUserPersonalInformationResponse(success: Swift.Bool)
+  func onGetUserPersonalInformationResponse(success: Swift.Bool, userInformation: BeatOneSDK.BOUserInformation?)
+  func onSetDeviceParametersResponse(success: Swift.Bool)
+  func onGetDeviceParametersResponse(success: Swift.Bool, deviceParameters: BeatOneSDK.BODeviceParameters?)
+  func onSetDeviceIDCodeResponse(success: Swift.Bool)
+  func onSetRealTimeStepModeResponse(success: Swift.Bool, stepInformation: BeatOneSDK.BORealTimeStepData?)
+  func onSetTargetStepsResponse(success: Swift.Bool)
+  func onGetTargetStepsResponse(success: Swift.Bool, steps: Swift.Int?)
+  func onGetDeviceBatteryResponse(success: Swift.Bool, batteryLevel: Swift.Int?)
+  func onGetMACAddressResponse(success: Swift.Bool, macAddress: Swift.String?)
+  func onGetSoftwareVersionNumberResponse(success: Swift.Bool, version: Swift.String?, date: Foundation.Date?)
+  func onSetFactoryResetResponse(success: Swift.Bool)
+  func onSetMCUResetResponse(success: Swift.Bool)
+  func onSetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool)
+  func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
+  func onSetAlarmResponse(success: Swift.Bool, alarms: [Swift.Int]?)
+  func onSetNotificationResponse(success: Swift.Bool)
+  func onSetActivityPeriodResponse(success: Swift.Bool)
+  func onGetActivityPeriodResponse(success: Swift.Bool, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, motionReminderPeriod: Swift.Int?, minimumNumberSteps: Swift.Int?, motionEnabled: Swift.Bool?)
+  func onGetTotalStepsDataResponse(success: Swift.Bool, totalStepsData: [BeatOneSDK.BOStepData]?)
+  func onGetDetailedStepsDataResponse(success: Swift.Bool, stepData: [BeatOneSDK.BODetailedStepData]?)
+  func onGetDetailedSleepDataResponse(success: Swift.Bool, sleepData: [BeatOneSDK.BOSleepData]?)
+  func onGetHeartRateDataResponse(success: Swift.Bool, heartRateData: [BeatOneSDK.BOHeartRateData]?)
+  func onGetSingleHeartRateDataResponse(success: Swift.Bool, heartRateData: [BeatOneSDK.BOSingleHeartRateData]?)
+  func onGetHRVDataResponse(success: Swift.Bool, hrvData: [BeatOneSDK.BOHRVData]?)
+  func onGetAlarmDataResponse(success: Swift.Bool, alarmData: [BeatOneSDK.BOAlarmData]?)
+  func onGetSportsDataResponse(success: Swift.Bool, sportData: [BeatOneSDK.BOSportData]?)
+  func onSportModeControlEnableResponse(success: Swift.Bool)
+  func onBraceletHeartBeatPacketReceived(success: Swift.Bool, sportData: BeatOneSDK.BOSportData?)
+  func onSetUpdateWeatherStatusResponse(success: Swift.Bool)
+  func onSetPhotoModeResponse(success: Swift.Bool)
+  func onFirmwareCommandReceived(success: Swift.Bool, command: BeatOneSDK.BOConstants.DeviceFirmwareCommand?, enable: Swift.Bool?)
+  func onClearHistoricalSportDataResponse(success: Swift.Bool)
+  func onGetBloodOxygenDataResponse(success: Swift.Bool, oxygenData: [BeatOneSDK.BOOxygenData]?)
+  func onGetTemperatureDataResponse(success: Swift.Bool, temperatureData: [BeatOneSDK.BOTemperatureData]?)
+  func onProcessSOSFunctionReceived()
+  func onSetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+  func onGetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class BOManager : ObjectiveC.NSObject, CoreBluetooth.CBCentralManagerDelegate, CoreBluetooth.CBPeripheralDelegate, CoreBluetooth.CBPeripheralManagerDelegate, BeatOneSDK.BODeviceDelegate {
+  public static var sharedInstance: BeatOneSDK.BOManager
+  public var delegate: BeatOneSDK.BOManagerDelegate?
+  public var isScanning: Swift.Bool
+  public func initManager(delegate: BeatOneSDK.BOManagerDelegate, sendLogs: Swift.Bool = false)
+  public func deviceIs1963YH(peripheral: CoreBluetooth.CBPeripheral) -> Swift.Bool
+  public func getDevice() -> BeatOneSDK.BODevice?
+  public func getConnectionStatus() -> BeatOneSDK.BOConstants.ConnectionState
+  public func startScan(type: BeatOneSDK.BOConstants.ScanType)
+  public func stopScan()
+  public func connectToDevice(device: BeatOneSDK.BODevice)
+  public func connectToDeviceWith(uuid: Swift.String)
+  public func disconnectDevice(device: BeatOneSDK.BODevice)
+  public func checkBluetoothPermissions() -> BeatOneSDK.BOConstants.BluetoothPermissions
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: Swift.Error?)
+  @objc public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, connectionEventDidOccur event: CoreBluetooth.CBConnectionEvent, for peripheral: CoreBluetooth.CBPeripheral)
+  @objc public func peripheralManagerDidUpdateState(_ peripheral: CoreBluetooth.CBPeripheralManager)
+  public func ready()
+  public func connected()
+  public func disconnected()
+  public func onSetTimeResponse(success: Swift.Bool)
+  public func onGetTimeResponse(success: Swift.Bool, date: Foundation.Date?)
+  public func onSetUserPersonalInformationResponse(success: Swift.Bool)
+  public func onGetUserPersonalInformationResponse(success: Swift.Bool, userInformation: BeatOneSDK.BOUserInformation?)
+  public func onSetDeviceParametersResponse(success: Swift.Bool)
+  public func onGetDeviceParametersResponse(success: Swift.Bool, deviceParameters: BeatOneSDK.BODeviceParameters?)
+  public func onSetDeviceIDCodeResponse(success: Swift.Bool)
+  public func onSetRealTimeStepModeResponse(success: Swift.Bool, stepInformation: BeatOneSDK.BORealTimeStepData?)
+  public func onSetTargetStepsResponse(success: Swift.Bool)
+  public func onGetTargetStepsResponse(success: Swift.Bool, steps: Swift.Int?)
+  public func onGetDeviceBatteryResponse(success: Swift.Bool, batteryLevel: Swift.Int?)
+  public func onGetMACAddressResponse(success: Swift.Bool, macAddress: Swift.String?)
+  public func onGetSoftwareVersionNumberResponse(success: Swift.Bool, version: Swift.String?, date: Foundation.Date?)
+  public func onSetFactoryResetResponse(success: Swift.Bool)
+  public func onSetMCUResetResponse(success: Swift.Bool)
+  public func onSetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool)
+  public func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
+  public func onSetAlarmResponse(success: Swift.Bool, alarms: [Swift.Int]?)
+  public func onSetNotificationResponse(success: Swift.Bool)
+  public func onSetActivityPeriodResponse(success: Swift.Bool)
+  public func onGetActivityPeriodResponse(success: Swift.Bool, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, motionReminderPeriod: Swift.Int?, minimumNumberSteps: Swift.Int?, motionEnabled: Swift.Bool?)
+  public func onGetTotalStepsDataResponse(success: Swift.Bool, totalStepsData: [BeatOneSDK.BOStepData]?)
+  public func onGetDetailedStepsDataResponse(success: Swift.Bool, stepData: [BeatOneSDK.BODetailedStepData]?)
+  public func onGetDetailedSleepDataResponse(success: Swift.Bool, sleepData: [BeatOneSDK.BOSleepData]?)
+  public func onGetHeartRateDataResponse(success: Swift.Bool, heartRateData: [BeatOneSDK.BOHeartRateData]?)
+  public func onGetSingleHeartRateDataResponse(success: Swift.Bool, heartRateData: [BeatOneSDK.BOSingleHeartRateData]?)
+  public func onGetHRVDataResponse(success: Swift.Bool, hrvData: [BeatOneSDK.BOHRVData]?)
+  public func onGetAlarmDataResponse(success: Swift.Bool, alarmData: [BeatOneSDK.BOAlarmData]?)
+  public func onGetSportsDataResponse(success: Swift.Bool, sportData: [BeatOneSDK.BOSportData]?)
+  public func onSportModeControlEnableResponse(success: Swift.Bool)
+  public func onBraceletHeartBeatPacketReceived(success: Swift.Bool, sportData: BeatOneSDK.BOSportData?)
+  public func onSetUpdateWeatherStatusResponse(success: Swift.Bool)
+  public func onSetPhotoModeResponse(success: Swift.Bool)
+  public func onFirmwareCommandReceived(success: Swift.Bool, command: BeatOneSDK.BOConstants.DeviceFirmwareCommand?, enable: Swift.Bool?)
+  public func onClearHistoricalSportDataResponse(success: Swift.Bool)
+  public func onGetBloodOxygenDataResponse(success: Swift.Bool, oxygenData: [BeatOneSDK.BOOxygenData]?)
+  public func onGetTemperatureDataResponse(success: Swift.Bool, temperatureData: [BeatOneSDK.BOTemperatureData]?)
+  public func onProcessSOSFunctionReceived()
+  public func onSetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+  public func onGetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+  public func onDataReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
+  public func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
+  public func onLog(message: Swift.String)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class BODeviceList : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  public func count() -> Swift.Int
+  public func getDevice(index: Swift.Int) -> BeatOneSDK.BODevice?
+  public func removeDevice(index: Swift.Int) -> Swift.Bool
+  public func getDeviceWithIdentifier(identifier: Swift.String) -> BeatOneSDK.BODevice?
+  public func removeDeviceWithIdentifier(identifier: Swift.String) -> Swift.Bool
+  public func updateWith(device: BeatOneSDK.BODevice)
+  public func getDevices() -> [BeatOneSDK.BODevice]
+  public func getSortedListByRSSI() -> BeatOneSDK.BODeviceList
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class BOConstants : ObjectiveC.NSObject {
+  public static var DEVICE_NAME: Swift.String
+  public static var SERVICE_UUID: Swift.String
+  public static var WRITE_UUID: Swift.String
+  public static var READ_UUID: Swift.String
+  public enum BluetoothPermissions : Swift.Int {
+    case REQUIRED
+    case UNSATISFIYING
+    case UNKNOWN
+    case PROVIDED
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum BluetoothStates : Swift.Int {
+    case POWERED_OFF
+    case POWERED_ON
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum ScanType : Swift.Int {
+    case SCAN
+    case SCAN_AND_CONNECT
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum ConnectionState : Swift.Int {
+    case DISCONNECTED
+    case IDLE
+    case SCANNING
+    case CONNECTING
+    case CONNECTED
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum UserGender : Swift.Int {
+    case FEMALE
+    case MALE
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceDistanceUnit : Swift.Int {
+    case KM
+    case MILE
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum DeviceHourDisplay : Swift.Int {
+    case HOUR_24_DISPLAY
+    case HOUR_12_DISPLAY
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum DeviceEnableSwitch : Swift.Int {
+    case DISABLED
+    case ENABLED
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceANCS : Swift.Int {
+    case PHONE_CALL
+    case MOBILE_PHONE_INFORMATION
+    case WECHAT
+    case FACEBOOK
+    case INSTAGRAM
+    case SKYPE
+    case TELEGRAM
+    case TWITTER
+    case VKCLIENT
+    case WHATSAPP
+    case QQ
+    case IN
+    case STOP_CALL_REMINDER
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceTemperatureUnit : Swift.Int {
+    case CELSIUS
+    case FAHRENHEIT
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum DeviceLanguage : Swift.Int {
+    case ENGLISH
+    case CHINESE
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public enum DeviceAutomaticHeartRateWorkingMode : Swift.Int {
+    case OFF
+    case IN_TIMEZONE
+    case IN_INTERVAL
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceAlarmType : Swift.Int {
+    case DISABLED
+    case ALARM
+    case MEDICINE_REMINDER
+    case WATER_REMINDER
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceDataAction : Swift.Int {
+    case DELETE
+    case READ_MOST_RECENT
+    case READ_SPECIFIED
+    case READ_NEXT
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceControlMode : Swift.Int {
+    case START
+    case PAUSE
+    case CONTINUE
+    case END
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceSportMode : Swift.Int {
+    case RUN
+    case CYCLING
+    case BADMINTON
+    case FOOTBALL
+    case TENNIS
+    case YOGA
+    case BREATH
+    case DANCE
+    case BASKETBALL
+    case HIKING
+    case GYM
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum DeviceFirmwareCommand : Swift.Int {
+    case CALL_OPERATION
+    case TAKE_PICTURE
+    case MUSIC_CONTROL
+    case FIND_PHONE
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum WeatherStatus : Swift.Int {
+    case SUNNY
+    case CLOUDY
+    case RAINY
+    case SNOWY
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public static var COMMAND_COUNT: Swift.Int
+  public enum CommandIdentifiers : Swift.Int {
+    case SET_TIME
+    case GET_TIME
+    case SET_USER_PERSONAL_INFORMATION
+    case GET_USER_PERSONAL_INFORMATION
+    case SET_DEVICE_PARAMETERS
+    case GET_DEVICE_PARAMETERS
+    case SET_DEVICE_ID_CODE
+    case SET_REALTIME_STEP_MODE
+    case SET_TARGET_STEPS
+    case GET_TARGET_STEPS
+    case GET_DEVICE_BATTERY
+    case GET_MAC_ADDRESS
+    case GET_SOFTWARE_VERSION_NUMBER
+    case SET_FACTORY_RESET
+    case SET_MCU_RESET
+    case SET_AUTOMATIC_HEART_RATE_DETECTION_PERIOD
+    case GET_AUTOMATIC_HEART_RATE_DETECTION_PERIOD
+    case SET_ALARM
+    case SET_NOTIFICATION
+    case SET_ACTIVITY_PERIOD
+    case GET_ACTIVITY_PERIOD
+    case GET_TOTAL_STEPS_DATA
+    case GET_DETAILED_STEPS_DATA
+    case GET_DETAILED_SLEEP_DATA
+    case GET_HEART_RATE_DATA
+    case GET_SINGLE_HEART_RATE_DATA
+    case GET_HRV_DATA
+    case GET_ALARM_DATA
+    case GET_SPORTS_DATA
+    case SPORT_MODE_CONTROL_ENABLE
+    case APP_HEART_BEAT_PACKET
+    case BRACELET_HEART_BEAT_PACKET
+    case SET_UPDATE_WEATHER_STATUS
+    case SET_PHOTO_MODE
+    case FIRMWARE_COMMAND
+    case CLEAR_HISTORICAL_SPORT_DATA
+    case GET_BLOOD_OXYGEN_DATA
+    case GET_TEMPERATURE_DATA
+    case SOS_FUNCTION
+    case SOCIAL_DISTANCE_REMINDER
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  public enum CommandErrorIdentifiers : Swift.Int {
+    case SET_TIME
+    case GET_TIME
+    case SET_USER_PERSONAL_INFORMATION
+    case GET_USER_PERSONAL_INFORMATION
+    case SET_DEVICE_PARAMETERS
+    case GET_DEVICE_PARAMETERS
+    case SET_DEVICE_ID_CODE
+    case SET_REALTIME_STEP_MODE
+    case SET_TARGET_STEPS
+    case GET_TARGET_STEPS
+    case GET_DEVICE_BATTERY
+    case GET_MAC_ADDRESS
+    case GET_SOFTWARE_VERSION_NUMBER
+    case SET_FACTORY_RESET
+    case SET_MCU_RESET
+    case SET_AUTOMATIC_HEART_RATE_DETECTION_PERIOD
+    case GET_AUTOMATIC_HEART_RATE_DETECTION_PERIOD
+    case SET_NOTIFICATION
+    case SET_ACTIVITY_PERIOD
+    case GET_ACTIVITY_PERIOD
+    case SPORT_MODE_CONTROL_ENABLE
+    case SET_PHOTO_MODE
+    case CLEAR_HISTORICAL_SPORT_DATA
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BORealTimeStepData : BeatOneSDK.BOStepData {
+  @objc deinit
+}
+@objc public class BODeviceParameters : ObjectiveC.NSObject {
+  public init(distanceUnit: BeatOneSDK.BOConstants.DeviceDistanceUnit, hourDisplay: BeatOneSDK.BOConstants.DeviceHourDisplay, wristSenseEnabled: Swift.Bool, temperatureUnit: BeatOneSDK.BOConstants.DeviceTemperatureUnit, nightMode: Swift.Bool, ANCSEnabled: Swift.Bool, ANCSInformation: BeatOneSDK.BOANCSInformation?, basicHeartRateSetting: Swift.Int, screenBrightness: Swift.Int, dialInterface: Swift.Int, socialDistanceEnabled: Swift.Bool, language: BeatOneSDK.BOConstants.DeviceLanguage)
+  public init(distanceUnit: BeatOneSDK.BOConstants.DeviceDistanceUnit, hourDisplay: BeatOneSDK.BOConstants.DeviceHourDisplay, wristSenseEnabled: Swift.Bool, temperatureUnit: BeatOneSDK.BOConstants.DeviceTemperatureUnit, nightMode: Swift.Int, ANCSEnabled: Swift.Int, ANCSInformation: BeatOneSDK.BOANCSInformation?, basicHeartRateSetting: Swift.Int, screenBrightness: Swift.Int, dialInterface: Swift.Int, socialDistanceEnabled: Swift.Int, language: BeatOneSDK.BOConstants.DeviceLanguage)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public class BOAlarmData : ObjectiveC.NSObject {
+  public init(alarmEnabled: Swift.Bool, alarmType: BeatOneSDK.BOConstants.DeviceAlarmType, alarmTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, alarmText: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public class BOTime : ObjectiveC.NSObject {
+  public init?(hour: Swift.Int, minutes: Swift.Int)
+  public init?(minutes: Swift.Int, seconds: Swift.Int)
+  public func toString() -> Swift.String?
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BODetailedStepData : BeatOneSDK.BOStepData {
+  @objc deinit
+}
+@objc public class BOANCSInformation : ObjectiveC.NSObject {
+  public init(phoneCall: Swift.Bool, mobilePhoneInformation: Swift.Bool, wechat: Swift.Bool, facebook: Swift.Bool, instagram: Swift.Bool, skype: Swift.Bool, telegram: Swift.Bool, twitter: Swift.Bool, vkclient: Swift.Bool, whatsapp: Swift.Bool, qq: Swift.Bool, in_: Swift.Bool)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOSleepData : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOTemperatureData : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOOxygenData : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOGeneralStepData : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public class BOWeekEnabler : ObjectiveC.NSObject {
+  public init(monday: Swift.Bool, tuesday: Swift.Bool, wednesday: Swift.Bool, thursday: Swift.Bool, friday: Swift.Bool, saturday: Swift.Bool, sunday: Swift.Bool)
+  public func toString() -> Swift.String
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOUserInformation : ObjectiveC.NSObject {
+  public init(gender: BeatOneSDK.BOConstants.UserGender, age: Swift.Int, height: Swift.Int, weight: Swift.Int, strideLength: Swift.Int)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOSportData : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOHRVData : BeatOneSDK.BOSingleHeartRateData {
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers public class BOStepData : BeatOneSDK.BOGeneralStepData {
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers public class BOHeartRateData : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers public class BOSingleHeartRateData : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
