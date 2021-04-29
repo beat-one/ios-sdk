@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "BeatOneSDK"
-  s.version = "1.0.1"
+  s.version = "1.0.0"
   s.author = "Beat One"
 
   s.license = { :type => 'Commercial', :text => 'See https://beat-one.com/condiciones-generales-de-venta/' }
