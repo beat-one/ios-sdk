@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://beat-one.com/'
   s.summary = 'Beat One SDK'
   
-  s.source = {  :http => 'https://github.com/beat-one/ios-sdk/blob/28b118ede7d28928ac5b4839a96bceaa11b40451/public/BeatOneSDK.framework.zip'}
+  s.source = {  :http => 'https://github.com/beat-one/ios-sdk/raw/612a8e5f66d86444ddacf130be40fc3b6cb2ebb1/public/BeatOneSDK.framework.zip'}
 
   s.vendored_frameworks = 'BeatOneSDK.framework'
   s.platform = 'ios'
