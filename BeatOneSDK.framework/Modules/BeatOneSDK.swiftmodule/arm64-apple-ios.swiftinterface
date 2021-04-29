@@ -1,5 +1,5 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
 // swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name BeatOneSDK
 @_exported import BeatOneSDK
 import CoreBluetooth
@@ -103,8 +103,8 @@ public protocol BODeviceDelegate : AnyObject {
   public func getTemperatureData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
   public func setSocialDistanceReminder(interval: Swift.Int, duration: Swift.Int, alarmSignal: Swift.Int)
   public func getSocialDistanceReminder(interval: Swift.Int, duration: Swift.Int, alarmSignal: Swift.Int)
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 public protocol BOManagerDelegate : AnyObject {
   func onBluetoothPermissionsChecked(status: BeatOneSDK.BOConstants.BluetoothPermissions)
@@ -239,6 +239,7 @@ public protocol BOManagerDelegate : AnyObject {
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers public class BOConstants : ObjectiveC.NSObject {
+  public static var DEVICE_NAME_OLD: Swift.String
   public static var DEVICE_NAME: Swift.String
   public static var SERVICE_UUID: Swift.String
   public static var WRITE_UUID: Swift.String
@@ -248,8 +249,8 @@ public protocol BOManagerDelegate : AnyObject {
     case UNSATISFIYING
     case UNKNOWN
     case PROVIDED
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -257,8 +258,8 @@ public protocol BOManagerDelegate : AnyObject {
   public enum BluetoothStates : Swift.Int {
     case POWERED_OFF
     case POWERED_ON
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -266,8 +267,8 @@ public protocol BOManagerDelegate : AnyObject {
   public enum ScanType : Swift.Int {
     case SCAN
     case SCAN_AND_CONNECT
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -278,8 +279,8 @@ public protocol BOManagerDelegate : AnyObject {
     case SCANNING
     case CONNECTING
     case CONNECTED
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -287,17 +288,17 @@ public protocol BOManagerDelegate : AnyObject {
   public enum UserGender : Swift.Int {
     case FEMALE
     case MALE
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceDistanceUnit : Swift.Int {
     case KM
     case MILE
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -305,8 +306,8 @@ public protocol BOManagerDelegate : AnyObject {
   public enum DeviceHourDisplay : Swift.Int {
     case HOUR_24_DISPLAY
     case HOUR_12_DISPLAY
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -314,11 +315,11 @@ public protocol BOManagerDelegate : AnyObject {
   public enum DeviceEnableSwitch : Swift.Int {
     case DISABLED
     case ENABLED
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceANCS : Swift.Int {
     case PHONE_CALL
@@ -334,17 +335,17 @@ public protocol BOManagerDelegate : AnyObject {
     case QQ
     case IN
     case STOP_CALL_REMINDER
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceTemperatureUnit : Swift.Int {
     case CELSIUS
     case FAHRENHEIT
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -352,8 +353,8 @@ public protocol BOManagerDelegate : AnyObject {
   public enum DeviceLanguage : Swift.Int {
     case ENGLISH
     case CHINESE
-    public typealias RawValue = Swift.Int
     public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
@@ -362,44 +363,44 @@ public protocol BOManagerDelegate : AnyObject {
     case OFF
     case IN_TIMEZONE
     case IN_INTERVAL
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceAlarmType : Swift.Int {
     case DISABLED
     case ALARM
     case MEDICINE_REMINDER
     case WATER_REMINDER
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceDataAction : Swift.Int {
     case DELETE
     case READ_MOST_RECENT
     case READ_SPECIFIED
     case READ_NEXT
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceControlMode : Swift.Int {
     case START
     case PAUSE
     case CONTINUE
     case END
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceSportMode : Swift.Int {
     case RUN
@@ -413,33 +414,33 @@ public protocol BOManagerDelegate : AnyObject {
     case BASKETBALL
     case HIKING
     case GYM
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum DeviceFirmwareCommand : Swift.Int {
     case CALL_OPERATION
     case TAKE_PICTURE
     case MUSIC_CONTROL
     case FIND_PHONE
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum WeatherStatus : Swift.Int {
     case SUNNY
     case CLOUDY
     case RAINY
     case SNOWY
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public static var COMMAND_COUNT: Swift.Int
   public enum CommandIdentifiers : Swift.Int {
@@ -483,11 +484,11 @@ public protocol BOManagerDelegate : AnyObject {
     case GET_TEMPERATURE_DATA
     case SOS_FUNCTION
     case SOCIAL_DISTANCE_REMINDER
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
   public enum CommandErrorIdentifiers : Swift.Int {
     case SET_TIME
@@ -513,14 +514,14 @@ public protocol BOManagerDelegate : AnyObject {
     case SPORT_MODE_CONTROL_ENABLE
     case SET_PHOTO_MODE
     case CLEAR_HISTORICAL_SPORT_DATA
+    public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
       get
     }
-    public init?(rawValue: Swift.Int)
   }
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BORealTimeStepData : BeatOneSDK.BOStepData {
   @objc deinit
@@ -533,54 +534,54 @@ public protocol BOManagerDelegate : AnyObject {
 }
 @objc public class BOAlarmData : ObjectiveC.NSObject {
   public init(alarmEnabled: Swift.Bool, alarmType: BeatOneSDK.BOConstants.DeviceAlarmType, alarmTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, alarmText: Swift.String)
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc public class BOTime : ObjectiveC.NSObject {
   public init?(hour: Swift.Int, minutes: Swift.Int)
   public init?(minutes: Swift.Int, seconds: Swift.Int)
   public func toString() -> Swift.String?
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BODetailedStepData : BeatOneSDK.BOStepData {
   @objc deinit
 }
 @objc public class BOANCSInformation : ObjectiveC.NSObject {
   public init(phoneCall: Swift.Bool, mobilePhoneInformation: Swift.Bool, wechat: Swift.Bool, facebook: Swift.Bool, instagram: Swift.Bool, skype: Swift.Bool, telegram: Swift.Bool, twitter: Swift.Bool, vkclient: Swift.Bool, whatsapp: Swift.Bool, qq: Swift.Bool, in_: Swift.Bool)
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOSleepData : ObjectiveC.NSObject {
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOTemperatureData : ObjectiveC.NSObject {
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOOxygenData : ObjectiveC.NSObject {
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOGeneralStepData : ObjectiveC.NSObject {
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc public class BOWeekEnabler : ObjectiveC.NSObject {
   public init(monday: Swift.Bool, tuesday: Swift.Bool, wednesday: Swift.Bool, thursday: Swift.Bool, friday: Swift.Bool, saturday: Swift.Bool, sunday: Swift.Bool)
   public func toString() -> Swift.String
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOUserInformation : ObjectiveC.NSObject {
   public init(gender: BeatOneSDK.BOConstants.UserGender, age: Swift.Int, height: Swift.Int, weight: Swift.Int, strideLength: Swift.Int)
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOSportData : ObjectiveC.NSObject {
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOHRVData : BeatOneSDK.BOSingleHeartRateData {
   @objc deinit
@@ -589,10 +590,10 @@ public protocol BOManagerDelegate : AnyObject {
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOHeartRateData : ObjectiveC.NSObject {
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOSingleHeartRateData : ObjectiveC.NSObject {
-  @objc deinit
   @objc override dynamic public init()
+  @objc deinit
 }
