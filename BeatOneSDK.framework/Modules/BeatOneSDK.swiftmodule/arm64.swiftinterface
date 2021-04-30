@@ -1,6 +1,6 @@
 // swift-interface-format-version: 1.0
 // swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
-// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -Onone -module-name BeatOneSDK
+// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name BeatOneSDK
 @_exported import BeatOneSDK
 import CoreBluetooth
 import Swift
@@ -27,7 +27,7 @@ public protocol BODeviceDelegate : AnyObject {
   func onSetFactoryResetResponse(success: Swift.Bool)
   func onSetMCUResetResponse(success: Swift.Bool)
   func onSetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool)
-  func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
+  func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
   func onSetAlarmResponse(success: Swift.Bool, alarms: [Swift.Int]?)
   func onSetNotificationResponse(success: Swift.Bool)
   func onSetActivityPeriodResponse(success: Swift.Bool)
@@ -51,6 +51,8 @@ public protocol BODeviceDelegate : AnyObject {
   func onProcessSOSFunctionReceived()
   func onSetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
   func onGetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+  func onSetAutomaticBloodOxygenDetectionPeriodResponse(success: Swift.Bool)
+  func onGetAutomaticBloodOxygenDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
 }
 @objc public class BODevice : ObjectiveC.NSObject, CoreBluetooth.CBPeripheralDelegate {
   public var delegate: BeatOneSDK.BODeviceDelegate?
@@ -80,7 +82,7 @@ public protocol BODeviceDelegate : AnyObject {
   public func getSoftwareVersionNumber()
   public func setFactoryReset()
   public func setMCUReset()
-  public func setAutomaticHeartRateDetectionPeriod(workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode, startTime: BeatOneSDK.BOTime, endTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, periodTime: Swift.Int?)
+  public func setAutomaticHeartRateDetectionPeriod(workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode, startTime: BeatOneSDK.BOTime, endTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, periodTime: Swift.Int?)
   public func getAutomaticHeartRateDetectionPeriod()
   public func setAlarm(alarmArray: [BeatOneSDK.BOAlarmData])
   public func setNotification(type: BeatOneSDK.BOConstants.DeviceANCS, content: Swift.String)
@@ -103,6 +105,8 @@ public protocol BODeviceDelegate : AnyObject {
   public func getTemperatureData(action: BeatOneSDK.BOConstants.DeviceDataAction, position: Swift.Int?)
   public func setSocialDistanceReminder(interval: Swift.Int, duration: Swift.Int, alarmSignal: Swift.Int)
   public func getSocialDistanceReminder(interval: Swift.Int, duration: Swift.Int, alarmSignal: Swift.Int)
+  public func setAutomaticBloodOxygenDetectionPeriod(workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode, startTime: BeatOneSDK.BOTime, endTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, periodTime: Swift.Int?)
+  public func getAutomaticBloodOxygenDetectionPeriod()
   @objc override dynamic public init()
   @objc deinit
 }
@@ -131,7 +135,7 @@ public protocol BOManagerDelegate : AnyObject {
   func onSetFactoryResetResponse(success: Swift.Bool)
   func onSetMCUResetResponse(success: Swift.Bool)
   func onSetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool)
-  func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
+  func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
   func onSetAlarmResponse(success: Swift.Bool, alarms: [Swift.Int]?)
   func onSetNotificationResponse(success: Swift.Bool)
   func onSetActivityPeriodResponse(success: Swift.Bool)
@@ -155,9 +159,11 @@ public protocol BOManagerDelegate : AnyObject {
   func onProcessSOSFunctionReceived()
   func onSetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
   func onGetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+  func onSetAutomaticBloodOxygenDetectionPeriodResponse(success: Swift.Bool)
+  func onGetAutomaticBloodOxygenDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class BOManager : ObjectiveC.NSObject, CoreBluetooth.CBCentralManagerDelegate, CoreBluetooth.CBPeripheralDelegate, CoreBluetooth.CBPeripheralManagerDelegate, BeatOneSDK.BODeviceDelegate {
-  public static var sharedInstance: BeatOneSDK.BOManager
+  public static let sharedInstance: BeatOneSDK.BOManager
   public var delegate: BeatOneSDK.BOManagerDelegate?
   public var isScanning: Swift.Bool
   public func initManager(delegate: BeatOneSDK.BOManagerDelegate, sendLogs: Swift.Bool = false)
@@ -198,7 +204,7 @@ public protocol BOManagerDelegate : AnyObject {
   public func onSetFactoryResetResponse(success: Swift.Bool)
   public func onSetMCUResetResponse(success: Swift.Bool)
   public func onSetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool)
-  public func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticHeartRateWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
+  public func onGetAutomaticHeartRateDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
   public func onSetAlarmResponse(success: Swift.Bool, alarms: [Swift.Int]?)
   public func onSetNotificationResponse(success: Swift.Bool)
   public func onSetActivityPeriodResponse(success: Swift.Bool)
@@ -222,6 +228,8 @@ public protocol BOManagerDelegate : AnyObject {
   public func onProcessSOSFunctionReceived()
   public func onSetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
   public func onGetSocialDistanceReminderResponse(success: Swift.Bool, interval: Swift.Int?, duration: Swift.Int?, alarmSignal: Swift.Int?)
+  public func onSetAutomaticBloodOxygenDetectionPeriodResponse(success: Swift.Bool)
+  public func onGetAutomaticBloodOxygenDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
   public func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   public func onLog(message: Swift.String)
   @objc deinit
@@ -239,11 +247,11 @@ public protocol BOManagerDelegate : AnyObject {
   @objc deinit
 }
 @objc @_inheritsConvenienceInitializers public class BOConstants : ObjectiveC.NSObject {
-  public static var DEVICE_NAME_OLD: Swift.String
-  public static var DEVICE_NAME: Swift.String
-  public static var SERVICE_UUID: Swift.String
-  public static var WRITE_UUID: Swift.String
-  public static var READ_UUID: Swift.String
+  public static let DEVICE_NAME_OLD: Swift.String
+  public static let DEVICE_NAME: Swift.String
+  public static let SERVICE_UUID: Swift.String
+  public static let WRITE_UUID: Swift.String
+  public static let READ_UUID: Swift.String
   public enum BluetoothPermissions : Swift.Int {
     case REQUIRED
     case UNSATISFIYING
@@ -359,7 +367,7 @@ public protocol BOManagerDelegate : AnyObject {
       get
     }
   }
-  public enum DeviceAutomaticHeartRateWorkingMode : Swift.Int {
+  public enum DeviceAutomaticWorkingMode : Swift.Int {
     case OFF
     case IN_TIMEZONE
     case IN_INTERVAL
@@ -442,7 +450,7 @@ public protocol BOManagerDelegate : AnyObject {
       get
     }
   }
-  public static var COMMAND_COUNT: Swift.Int
+  public static let COMMAND_COUNT: Swift.Int
   public enum CommandIdentifiers : Swift.Int {
     case SET_TIME
     case GET_TIME
@@ -484,6 +492,8 @@ public protocol BOManagerDelegate : AnyObject {
     case GET_TEMPERATURE_DATA
     case SOS_FUNCTION
     case SOCIAL_DISTANCE_REMINDER
+    case SET_AUTOMATIC_BLOOD_OXYGEN_DETECTION_PERIOD
+    case GET_AUTOMATIC_BLOOD_OXYGEN_DETECTION_PERIOD
     public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
@@ -514,6 +524,8 @@ public protocol BOManagerDelegate : AnyObject {
     case SPORT_MODE_CONTROL_ENABLE
     case SET_PHOTO_MODE
     case CLEAR_HISTORICAL_SPORT_DATA
+    case SET_AUTOMATIC_BLOOD_OXYGEN_DETECTION_PERIOD
+    case GET_AUTOMATIC_BLOOD_OXYGEN_DETECTION_PERIOD
     public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
@@ -597,3 +609,63 @@ public protocol BOManagerDelegate : AnyObject {
   @objc override dynamic public init()
   @objc deinit
 }
+extension BeatOneSDK.BOConstants.BluetoothPermissions : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.BluetoothPermissions : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.BluetoothPermissions : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.BluetoothStates : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.BluetoothStates : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.BluetoothStates : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.ScanType : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.ScanType : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.ScanType : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.ConnectionState : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.ConnectionState : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.ConnectionState : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.UserGender : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.UserGender : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.UserGender : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceDistanceUnit : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceDistanceUnit : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceDistanceUnit : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceHourDisplay : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceHourDisplay : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceHourDisplay : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceEnableSwitch : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceEnableSwitch : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceEnableSwitch : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceANCS : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceANCS : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceANCS : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceTemperatureUnit : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceTemperatureUnit : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceTemperatureUnit : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceLanguage : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceLanguage : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceLanguage : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceAlarmType : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceAlarmType : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceAlarmType : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceDataAction : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceDataAction : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceDataAction : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceControlMode : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceControlMode : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceControlMode : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceSportMode : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceSportMode : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceSportMode : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.DeviceFirmwareCommand : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.DeviceFirmwareCommand : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.DeviceFirmwareCommand : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.WeatherStatus : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.WeatherStatus : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.WeatherStatus : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.CommandIdentifiers : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.CommandIdentifiers : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.CommandIdentifiers : Swift.RawRepresentable {}
+extension BeatOneSDK.BOConstants.CommandErrorIdentifiers : Swift.Equatable {}
+extension BeatOneSDK.BOConstants.CommandErrorIdentifiers : Swift.Hashable {}
+extension BeatOneSDK.BOConstants.CommandErrorIdentifiers : Swift.RawRepresentable {}
