@@ -360,7 +360,7 @@ public protocol BOManagerDelegate : AnyObject {
   }
   public enum DeviceLanguage : Swift.Int {
     case ENGLISH
-    case CHINESE
+    case SPANISH
     public init?(rawValue: Swift.Int)
     public typealias RawValue = Swift.Int
     public var rawValue: Swift.Int {
