@@ -1,14 +1,14 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)
+// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
 // swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name BeatOneSDK
 @_exported import BeatOneSDK
 import CoreBluetooth
 import Swift
 import UIKit
 public protocol BODeviceDelegate : AnyObject {
-  func ready()
-  func connected()
-  func disconnected()
+  func ready(device: BeatOneSDK.BODevice)
+  func connected(device: BeatOneSDK.BODevice)
+  func disconnected(device: BeatOneSDK.BODevice)
   func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
   func onLog(message: Swift.String)
   func onSetTimeResponse(success: Swift.Bool)
@@ -22,7 +22,7 @@ public protocol BODeviceDelegate : AnyObject {
   func onSetTargetStepsResponse(success: Swift.Bool)
   func onGetTargetStepsResponse(success: Swift.Bool, steps: Swift.Int?)
   func onGetDeviceBatteryResponse(success: Swift.Bool, batteryLevel: Swift.Int?)
-  func onGetMACAddressResponse(success: Swift.Bool, macAddress: Swift.String?)
+  func onGetMACAddressResponse(success: Swift.Bool, device: BeatOneSDK.BODevice, macAddress: Swift.String?)
   func onGetSoftwareVersionNumberResponse(success: Swift.Bool, version: Swift.String?, date: Foundation.Date?)
   func onSetFactoryResetResponse(success: Swift.Bool)
   func onSetMCUResetResponse(success: Swift.Bool)
@@ -57,9 +57,10 @@ public protocol BODeviceDelegate : AnyObject {
 @objc public class BODevice : ObjectiveC.NSObject, CoreBluetooth.CBPeripheralDelegate {
   public var delegate: BeatOneSDK.BODeviceDelegate?
   public init(peripheral: CoreBluetooth.CBPeripheral, rssi: Swift.Int, sendLogs: Swift.Bool = false)
-  public func deviceIs1963YH() -> Swift.Bool
+  public func deviceIsBeatOne() -> Swift.Bool
   public func getUUID() -> Foundation.UUID?
   public func getRSSI() -> Swift.Int?
+  public func getMAC() -> Swift.String?
   public func isSameDeviceAs(device: BeatOneSDK.BODevice) -> Swift.Bool
   public func isDeviceWith(uuid: Swift.String) -> Swift.Bool
   public func connect()
@@ -167,7 +168,7 @@ public protocol BOManagerDelegate : AnyObject {
   public var delegate: BeatOneSDK.BOManagerDelegate?
   public var isScanning: Swift.Bool
   public func initManager(delegate: BeatOneSDK.BOManagerDelegate, sendLogs: Swift.Bool = false)
-  public func deviceIs1963YH(peripheral: CoreBluetooth.CBPeripheral) -> Swift.Bool
+  public func deviceIsBeatOne(peripheral: CoreBluetooth.CBPeripheral) -> Swift.Bool
   public func getDevice() -> BeatOneSDK.BODevice?
   public func getConnectionStatus() -> BeatOneSDK.BOConstants.ConnectionState
   public func startScan(type: BeatOneSDK.BOConstants.ScanType)
@@ -185,9 +186,9 @@ public protocol BOManagerDelegate : AnyObject {
   @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
   @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, connectionEventDidOccur event: CoreBluetooth.CBConnectionEvent, for peripheral: CoreBluetooth.CBPeripheral)
   @objc public func peripheralManagerDidUpdateState(_ peripheral: CoreBluetooth.CBPeripheralManager)
-  public func ready()
-  public func connected()
-  public func disconnected()
+  public func ready(device: BeatOneSDK.BODevice)
+  public func connected(device: BeatOneSDK.BODevice)
+  public func disconnected(device: BeatOneSDK.BODevice)
   public func onSetTimeResponse(success: Swift.Bool)
   public func onGetTimeResponse(success: Swift.Bool, date: Foundation.Date?)
   public func onSetUserPersonalInformationResponse(success: Swift.Bool)
@@ -199,7 +200,7 @@ public protocol BOManagerDelegate : AnyObject {
   public func onSetTargetStepsResponse(success: Swift.Bool)
   public func onGetTargetStepsResponse(success: Swift.Bool, steps: Swift.Int?)
   public func onGetDeviceBatteryResponse(success: Swift.Bool, batteryLevel: Swift.Int?)
-  public func onGetMACAddressResponse(success: Swift.Bool, macAddress: Swift.String?)
+  public func onGetMACAddressResponse(success: Swift.Bool, device: BeatOneSDK.BODevice, macAddress: Swift.String?)
   public func onGetSoftwareVersionNumberResponse(success: Swift.Bool, version: Swift.String?, date: Foundation.Date?)
   public func onSetFactoryResetResponse(success: Swift.Bool)
   public func onSetMCUResetResponse(success: Swift.Bool)
