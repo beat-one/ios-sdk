@@ -115,7 +115,7 @@ public protocol BOManagerDelegate : AnyObject {
   func onBluetoothPermissionsChecked(status: BeatOneSDK.BOConstants.BluetoothPermissions)
   func onBluetoothPowerChanged(status: BeatOneSDK.BOConstants.BluetoothStates)
   func onConnectionError(message: Swift.String)
-  func onConnectionChanged(status: BeatOneSDK.BOConstants.ConnectionState)
+  func onConnectionChanged(device: BeatOneSDK.BODevice?, status: BeatOneSDK.BOConstants.ConnectionState)
   func onDeviceDetected(device: BeatOneSDK.BODevice)
   func onScanStateChanged(active: Swift.Bool)
   func onErrorReceived(commandIdentifier: BeatOneSDK.BOConstants.CommandIdentifiers?, data: Any)
