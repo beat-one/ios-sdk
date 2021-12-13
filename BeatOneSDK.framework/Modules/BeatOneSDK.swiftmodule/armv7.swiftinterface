@@ -1,10 +1,11 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.4.2 (swiftlang-1205.0.28.2 clang-1205.0.19.57)
+// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
 // swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name BeatOneSDK
 @_exported import BeatOneSDK
 import CoreBluetooth
 import Swift
 import UIKit
+import _Concurrency
 public protocol BODeviceDelegate : AnyObject {
   func ready(device: BeatOneSDK.BODevice)
   func connected(device: BeatOneSDK.BODevice)
@@ -108,7 +109,6 @@ public protocol BODeviceDelegate : AnyObject {
   public func getSocialDistanceReminder(interval: Swift.Int, duration: Swift.Int, alarmSignal: Swift.Int)
   public func setAutomaticBloodOxygenDetectionPeriod(workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode, startTime: BeatOneSDK.BOTime, endTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, periodTime: Swift.Int?)
   public func getAutomaticBloodOxygenDetectionPeriod()
-  @objc override dynamic public init()
   @objc deinit
 }
 public protocol BOManagerDelegate : AnyObject {
@@ -540,6 +540,9 @@ public protocol BOManagerDelegate : AnyObject {
 @objc @_hasMissingDesignatedInitializers public class BORealTimeStepData : BeatOneSDK.BOStepData {
   public var heartRate: Swift.Int?
   public var temperature: Swift.Double?
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc public class BODeviceParameters : ObjectiveC.NSObject {
@@ -557,7 +560,6 @@ public protocol BOManagerDelegate : AnyObject {
   public var language: BeatOneSDK.BOConstants.DeviceLanguage?
   public init(distanceUnit: BeatOneSDK.BOConstants.DeviceDistanceUnit, hourDisplay: BeatOneSDK.BOConstants.DeviceHourDisplay, wristSenseEnabled: Swift.Bool, temperatureUnit: BeatOneSDK.BOConstants.DeviceTemperatureUnit, nightMode: Swift.Bool, ANCSEnabled: Swift.Bool, ANCSInformation: BeatOneSDK.BOANCSInformation?, basicHeartRateSetting: Swift.Int, screenBrightness: Swift.Int, dialInterface: Swift.Int, socialDistanceEnabled: Swift.Bool, language: BeatOneSDK.BOConstants.DeviceLanguage)
   public init(distanceUnit: BeatOneSDK.BOConstants.DeviceDistanceUnit, hourDisplay: BeatOneSDK.BOConstants.DeviceHourDisplay, wristSenseEnabled: Swift.Bool, temperatureUnit: BeatOneSDK.BOConstants.DeviceTemperatureUnit, nightMode: Swift.Int, ANCSEnabled: Swift.Int, ANCSInformation: BeatOneSDK.BOANCSInformation?, basicHeartRateSetting: Swift.Int, screenBrightness: Swift.Int, dialInterface: Swift.Int, socialDistanceEnabled: Swift.Int, language: BeatOneSDK.BOConstants.DeviceLanguage)
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc public class BOAlarmData : ObjectiveC.NSObject {
@@ -567,7 +569,6 @@ public protocol BOManagerDelegate : AnyObject {
   public var weekEnable: BeatOneSDK.BOWeekEnabler?
   public var alarmText: Swift.String?
   public init(alarmEnabled: Swift.Bool, alarmType: BeatOneSDK.BOConstants.DeviceAlarmType, alarmTime: BeatOneSDK.BOTime, weekEnable: BeatOneSDK.BOWeekEnabler, alarmText: Swift.String)
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc public class BOTime : ObjectiveC.NSObject {
@@ -577,11 +578,13 @@ public protocol BOManagerDelegate : AnyObject {
   public init?(hour: Swift.Int, minutes: Swift.Int)
   public init?(minutes: Swift.Int, seconds: Swift.Int)
   public func toString() -> Swift.String?
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BODetailedStepData : BeatOneSDK.BOStepData {
   public var stepsPerMinute: [Swift.Int]?
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc public class BOANCSInformation : ObjectiveC.NSObject {
@@ -598,7 +601,6 @@ public protocol BOManagerDelegate : AnyObject {
   public var qq: Swift.Bool
   public var in_: Swift.Bool
   public init(phoneCall: Swift.Bool, mobilePhoneInformation: Swift.Bool, wechat: Swift.Bool, facebook: Swift.Bool, instagram: Swift.Bool, skype: Swift.Bool, telegram: Swift.Bool, twitter: Swift.Bool, vkclient: Swift.Bool, whatsapp: Swift.Bool, qq: Swift.Bool, in_: Swift.Bool)
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOSleepData : ObjectiveC.NSObject {
@@ -606,21 +608,27 @@ public protocol BOManagerDelegate : AnyObject {
   public var date: Foundation.Date?
   public var duration: Swift.Int?
   public var sleepPer5Minutes: [Swift.Int]?
-  @objc override dynamic public init()
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOTemperatureData : ObjectiveC.NSObject {
   public var id: Swift.Int?
   public var date: Foundation.Date?
   public var temperature: Swift.Double?
-  @objc override dynamic public init()
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOOxygenData : ObjectiveC.NSObject {
   public var id: Swift.Int?
   public var date: Foundation.Date?
   public var bloodOxygen: Swift.Int?
-  @objc override dynamic public init()
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOGeneralStepData : ObjectiveC.NSObject {
@@ -628,7 +636,9 @@ public protocol BOManagerDelegate : AnyObject {
   public var calories: Swift.Int?
   public var distance: Swift.Int?
   public var duration: Swift.Int?
-  @objc override dynamic public init()
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc public class BOWeekEnabler : ObjectiveC.NSObject {
@@ -641,7 +651,6 @@ public protocol BOManagerDelegate : AnyObject {
   public var sunday: Swift.Bool
   public init(monday: Swift.Bool, tuesday: Swift.Bool, wednesday: Swift.Bool, thursday: Swift.Bool, friday: Swift.Bool, saturday: Swift.Bool, sunday: Swift.Bool)
   public func toString() -> Swift.String
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOUserInformation : ObjectiveC.NSObject {
@@ -652,7 +661,6 @@ public protocol BOManagerDelegate : AnyObject {
   public var strideLength: Swift.Int?
   public var deviceId: Swift.String?
   public init(gender: BeatOneSDK.BOConstants.UserGender, age: Swift.Int, height: Swift.Int, weight: Swift.Int, strideLength: Swift.Int)
-  @objc override dynamic public init()
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOSportData : ObjectiveC.NSObject {
@@ -665,7 +673,9 @@ public protocol BOManagerDelegate : AnyObject {
   public var movementSpeed: BeatOneSDK.BOTime?
   public var calories: Swift.Float?
   public var distance: Swift.Float?
-  @objc override dynamic public init()
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOHRVData : BeatOneSDK.BOSingleHeartRateData {
@@ -674,6 +684,9 @@ public protocol BOManagerDelegate : AnyObject {
   public var fatigue: Swift.Int?
   public var highBloodPressure: Swift.Int?
   public var lowBloodPressure: Swift.Int?
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOStepData : BeatOneSDK.BOGeneralStepData {
@@ -681,20 +694,27 @@ public protocol BOManagerDelegate : AnyObject {
   public var date: Foundation.Date?
   public var target: Swift.Int?
   public var rapidMovement: Swift.Int?
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOHeartRateData : ObjectiveC.NSObject {
   public var id: Swift.Int?
   public var date: Foundation.Date?
   public var heartRateEveryMinute: [Swift.Int]?
-  @objc override dynamic public init()
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 @objc @_hasMissingDesignatedInitializers public class BOSingleHeartRateData : ObjectiveC.NSObject {
   public var id: Swift.Int?
   public var date: Foundation.Date?
   public var heartRate: Swift.Int?
-  @objc override dynamic public init()
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
   @objc deinit
 }
 extension BeatOneSDK.BOConstants.BluetoothPermissions : Swift.Equatable {}
