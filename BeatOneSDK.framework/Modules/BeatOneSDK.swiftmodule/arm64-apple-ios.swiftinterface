@@ -1,11 +1,14 @@
 // swift-interface-format-version: 1.0
-// swift-compiler-version: Apple Swift version 5.5.1 (swiftlang-1300.0.31.4 clang-1300.0.29.6)
-// swift-module-flags: -target arm64-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name BeatOneSDK
+// swift-compiler-version: Apple Swift version 6.1 effective-5.10 (swiftlang-6.1.0.110.21 clang-1700.0.13.3)
+// swift-module-flags: -target arm64-apple-ios12.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name BeatOneSDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1
 @_exported import BeatOneSDK
 import CoreBluetooth
 import Swift
 import UIKit
 import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
 public protocol BODeviceDelegate : AnyObject {
   func ready(device: BeatOneSDK.BODevice)
   func connected(device: BeatOneSDK.BODevice)
@@ -56,7 +59,7 @@ public protocol BODeviceDelegate : AnyObject {
   func onGetAutomaticBloodOxygenDetectionPeriodResponse(success: Swift.Bool, workingMode: BeatOneSDK.BOConstants.DeviceAutomaticWorkingMode?, startTime: BeatOneSDK.BOTime?, endTime: BeatOneSDK.BOTime?, weekEnable: BeatOneSDK.BOWeekEnabler?, periodTime: Swift.Int?)
 }
 @objc public class BODevice : ObjectiveC.NSObject, CoreBluetooth.CBPeripheralDelegate {
-  public var delegate: BeatOneSDK.BODeviceDelegate?
+  public var delegate: (any BeatOneSDK.BODeviceDelegate)?
   public init(peripheral: CoreBluetooth.CBPeripheral, rssi: Swift.Int, sendLogs: Swift.Bool = false)
   public func deviceIsBeatOne() -> Swift.Bool
   public func getUUID() -> Foundation.UUID?
@@ -67,8 +70,8 @@ public protocol BODeviceDelegate : AnyObject {
   public func connect()
   public func disconnect()
   public func getStatus() -> BeatOneSDK.BOConstants.ConnectionState
-  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
-  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
   public func setTime(date: Foundation.Date)
   public func getTime()
   public func setUserPersonalInformation(userInformation: BeatOneSDK.BOUserInformation)
@@ -165,9 +168,9 @@ public protocol BOManagerDelegate : AnyObject {
 }
 @objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class BOManager : ObjectiveC.NSObject, CoreBluetooth.CBCentralManagerDelegate, CoreBluetooth.CBPeripheralDelegate, CoreBluetooth.CBPeripheralManagerDelegate, BeatOneSDK.BODeviceDelegate {
   public static let sharedInstance: BeatOneSDK.BOManager
-  public var delegate: BeatOneSDK.BOManagerDelegate?
+  public var delegate: (any BeatOneSDK.BOManagerDelegate)?
   public var isScanning: Swift.Bool
-  public func initManager(delegate: BeatOneSDK.BOManagerDelegate, sendLogs: Swift.Bool = false)
+  public func initManager(delegate: any BeatOneSDK.BOManagerDelegate, sendLogs: Swift.Bool = false)
   public func deviceIsBeatOne(peripheral: CoreBluetooth.CBPeripheral) -> Swift.Bool
   public func getDevice() -> BeatOneSDK.BODevice?
   public func getConnectionStatus() -> BeatOneSDK.BOConstants.ConnectionState
@@ -177,12 +180,12 @@ public protocol BOManagerDelegate : AnyObject {
   public func connectToDeviceWith(uuid: Swift.String)
   public func disconnectDevice(device: BeatOneSDK.BODevice)
   public func checkBluetoothPermissions() -> BeatOneSDK.BOConstants.BluetoothPermissions
-  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: Swift.Error?)
-  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: Swift.Error?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: (any Swift.Error)?)
+  @objc public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: (any Swift.Error)?)
   @objc public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
   @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
-  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
-  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: Swift.Error?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
   @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
   @objc public func centralManager(_ central: CoreBluetooth.CBCentralManager, connectionEventDidOccur event: CoreBluetooth.CBConnectionEvent, for peripheral: CoreBluetooth.CBPeripheral)
   @objc public func peripheralManagerDidUpdateState(_ peripheral: CoreBluetooth.CBPeripheralManager)

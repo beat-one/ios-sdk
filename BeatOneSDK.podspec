@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "BeatOneSDK"
-  s.version = "1.1.0"
+  s.version = "1.1.2"
   s.author = "Beat One"
 
   s.license = { :type => 'Commercial', :text => 'See https://beat-one.com/condiciones-generales-de-venta/' }
@@ -12,7 +12,7 @@ Pod::Spec.new do |s|
   s.vendored_frameworks = 'BeatOneSDK.framework'
   s.platform = 'ios'
 
-  s.ios.deployment_target = '10.3'
+  s.ios.deployment_target = '12.0'
 
   s.requires_arc = true
 end
